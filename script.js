@@ -1,17 +1,22 @@
 let sessionEnd = false
 let sessionTime = 10
+let secondsLeft = sessionTime
 let breakTime = 10
 let sessionCounter = 0
-let timerOn = false
-
+let timerFinished = true
+let timerId = 0
+let pause = true;
+let currentStatus = ''
 const display = document.querySelector('#display');
 const description = document.querySelector('#description')
 const button = document.querySelector('#startButton');
 
-function timer(seconds){setInterval(function() {
+function timer(seconds){
+		timerId = setInterval(function() {
 		if(seconds >= 0){
 			timerConvert(seconds)
 			seconds--
+			secondsLeft = seconds
 		}else{
 			clearInterval(timer);
 		}		
@@ -20,19 +25,21 @@ function timer(seconds){setInterval(function() {
 
 function timerBreak(){
 	description.textContent = "Time for a break!"
-	timer(breakTime);
+	timer(secondsLeft);
 	sessionEnd = false;
+	currentStatus = ''
 }
 
 function timerWork(){
 	sessionCounter > 0 ? description.textContent = "Back to work!" : description.textContent = "Time for work!";
-	timer(sessionTime)
+	timer(secondsLeft)
 	sessionEnd = true;
 	sessionCounter++
+	currentStatus = 'work'
 }
 
 function timerTrack(){
-	sessionEnd ? timerBreak() : timerWork();
+	sessionEnd && secondsLeft > 0 ? timerBreak() : timerWork();
 }
 
 function timerConvert(seconds){
@@ -45,7 +52,23 @@ function timerConvert(seconds){
 	display.textContent = formatedMinutes + ":" + formatedSeconds
 }
 
+function automaticTimer(){
 
+}
+
+function pauseTimer(){
+	if(pause){
+	timerTrack()
+	button.textContent = 'pause'
+	pause = false
+	}else{
+		clearInterval(timerId)
+		pause = true
+		button.textContent = 'unpause'
+	}
+}
 button.addEventListener('click', () => {
-	timerTrack();
+	pauseTimer();
 })
+
+timerConvert(sessionTime);
