@@ -1,24 +1,26 @@
 
-let sessionTime = 10
+let sessionTime = 1500
 let secondsLeft = sessionTime
 let breakTime = 10
 let sessionCounter = 0
 let timerId = 0
-let reset = true;
 let timerRunning = false
-
 let currentStatus = 'work'
 
+const reset = true;
 const display = document.querySelector('#display');
 const description = document.querySelector('#description')
 const button = document.querySelector('#startButton');
 const resetButton = document.querySelector('#resetButton');
 
+function updateMessage(string){
+	description.textContent = string
+}
+
 function timerConvert(seconds){
-	if(seconds > 60){
+	if(seconds >= 3600) alert('')
 	let minutes = parseInt(seconds / 60)
-		seconds = seconds % 60}
-	else minutes = 0
+	seconds = seconds % 60
 	let formatedMinutes = ("0" + minutes).slice(-2);
 	let formatedSeconds = ("0" + seconds).slice(-2);
 	display.textContent = formatedMinutes + ":" + formatedSeconds
@@ -31,7 +33,8 @@ function timer(seconds){
 			secondsLeft = seconds
 			timerConvert(seconds)
 		}else{
-			clearInterval(timer);
+			clearInterval(timerId);
+			toggleSession();
 		}		
 	}, 1000)
 }
@@ -43,7 +46,8 @@ function toggleClock(reset){
 		clearInterval(timerId)
 		timerConvert(sessionTime);
 		secondsLeft = sessionTime	
-		button.textContent = 'Start Work'					//reset
+		currentStatus = 'work'
+		button.textContent = 'Start Work'				//reset
 	}else{
 		if(timerRunning == true){
 			clearInterval(timerId)						//pause
@@ -63,14 +67,16 @@ function toggleSession(){
 			switch(currentStatus){
 				case 'break':
 				currentStatus = 'work'
+				timerConvert(sessionTime)
 				timer(sessionTime);
-				description.textContent = 'Work Time!'
+				updateMessage('Time to work!')
 				break;
 
 				case 'work':
 				currentStatus = 'break';
+				timerConvert(breakTime)
 				timer(breakTime);
-				description.textContent = 'Time for a break!'
+				updateMessage('Time for a break!')
 				break;
 			}
 		}
