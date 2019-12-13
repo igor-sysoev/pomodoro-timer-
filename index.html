@@ -2,16 +2,36 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	<title>Pomodoro Timer</title>
+	<link rel="icon" href="favicon.png">
+	<script src="https://kit.fontawesome.com/fad694f758.js" crossorigin="anonymous"></script>
+	<title>Tomato Timer</title>
 </head>
 <body>
 	<div class="container">
 		<p id="display">00:00</p>
-		<p id="description"></p>
-		<button id='startButton'>Start Work</button>
-		<button id="resetButton">Reset</button>
+		<div class="buttons">
+			<button id='startButton'></button>
+		<!-- <i class="fas fa-pause"></i> -->
+			<button id="resetButton"></button>
+			<div class="counter">
+				<p>Session</p>
+				<button id="session-counter-up"><i class="fas fa-chevron-up"></i></button>
+				<p id="session-counter"></p>
+				<button id="session-counter-down"><i class="fas fa-chevron-down"></i></button>
+			</div>
+			<div class="counter">
+				<p>Break</p>
+				<button id="break-counter-up"><i class="fas fa-chevron-up"></i></button>
+				<p id="break-counter"></p>
+				<button id="break-counter-down"><i class="fas fa-chevron-down"></i></button>
+			</div>
+		</div>
 	</div>
+	<p id="description">Tomato Timer</p>
 
+
+<audio src="sfx/blep.mp3" id="bleep"></audio>
+<audio src="sfx/blop.mp3" id="bloop"></audio>
 <script type="text/javascript" src="script.js"></script>
 </body>
 </html>

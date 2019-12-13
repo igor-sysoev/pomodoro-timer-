@@ -1,20 +1,79 @@
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu|VT323&display=swap');
 *{
 	margin: 0;
 	padding: 0;
 }
 
 #display{
-	font-size: 400px;
+	font-size: 150px;
+
+	font-family: 'VT323', 'sans-serif';
 }
 
-.container {
+body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
+	background-color: #9e0606;
+	font-family: 'Ubuntu', 'sans-serif';
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 300px
 }
 
 #description{
-	font-size: 150px;
+	font-size: 50px;
+}
+
+.buttons {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+
+.buttons .counter button{
+	width: 100%;
+}
+
+.buttons button{
+	width: 50px;
+}
+
+#resetButton {
+	margin-right: 10px;
+}
+
+
+.counter {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.counter{
+	margin: 10px;
+}
+
+button {
+	border: 0;
+	background: none;
+	font-size: 30px;
+}
+
+button:focus {
+	outline: none;
+}
+
+.fas:active {
+	filter: brightness(115%);
+	color: red;
 }
