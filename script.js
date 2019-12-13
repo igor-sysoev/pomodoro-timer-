@@ -1,46 +1,18 @@
-let sessionEnd = false
+
 let sessionTime = 10
 let secondsLeft = sessionTime
 let breakTime = 10
 let sessionCounter = 0
-let timerFinished = true
 let timerId = 0
-let pause = true;
-let currentStatus = ''
+let reset = true;
+let timerRunning = false
+
+let currentStatus = 'work'
+
 const display = document.querySelector('#display');
 const description = document.querySelector('#description')
 const button = document.querySelector('#startButton');
-
-function timer(seconds){
-		timerId = setInterval(function() {
-		if(seconds >= 0){
-			timerConvert(seconds)
-			seconds--
-			secondsLeft = seconds
-		}else{
-			clearInterval(timer);
-		}		
-	}, 1000)
-}
-
-function timerBreak(){
-	description.textContent = "Time for a break!"
-	timer(secondsLeft);
-	sessionEnd = false;
-	currentStatus = ''
-}
-
-function timerWork(){
-	sessionCounter > 0 ? description.textContent = "Back to work!" : description.textContent = "Time for work!";
-	timer(secondsLeft)
-	sessionEnd = true;
-	sessionCounter++
-	currentStatus = 'work'
-}
-
-function timerTrack(){
-	sessionEnd && secondsLeft > 0 ? timerBreak() : timerWork();
-}
+const resetButton = document.querySelector('#resetButton');
 
 function timerConvert(seconds){
 	if(seconds > 60){
@@ -52,23 +24,65 @@ function timerConvert(seconds){
 	display.textContent = formatedMinutes + ":" + formatedSeconds
 }
 
-function automaticTimer(){
-
+function timer(seconds){
+		timerId = setInterval(function() {
+		if(seconds > 0){
+			seconds--
+			secondsLeft = seconds
+			timerConvert(seconds)
+		}else{
+			clearInterval(timer);
+		}		
+	}, 1000)
 }
 
-function pauseTimer(){
-	if(pause){
-	timerTrack()
-	button.textContent = 'pause'
-	pause = false
-	}else{
+
+
+function toggleClock(reset){
+	if(reset){
 		clearInterval(timerId)
-		pause = true
-		button.textContent = 'unpause'
+		timerConvert(sessionTime);
+		secondsLeft = sessionTime	
+		button.textContent = 'Start Work'					//reset
+	}else{
+		if(timerRunning == true){
+			clearInterval(timerId)						//pause
+			timerRunning = false
+			button.textContent = 'unpause'
+
+		}else{
+			timer(secondsLeft)							//unpause
+			timerRunning = true;
+			button.textContent = 'pause'
+		}
 	}
 }
+
+function toggleSession(){
+	if(secondsLeft == 0){
+			switch(currentStatus){
+				case 'break':
+				currentStatus = 'work'
+				timer(sessionTime);
+				description.textContent = 'Work Time!'
+				break;
+
+				case 'work':
+				currentStatus = 'break';
+				timer(breakTime);
+				description.textContent = 'Time for a break!'
+				break;
+			}
+		}
+}
+
+
 button.addEventListener('click', () => {
-	pauseTimer();
+	toggleClock();
 })
 
-timerConvert(sessionTime);
+resetButton.addEventListener('click', () => {
+	toggleClock(reset);
+})
+
+timerConvert(sessionTime);  /// initialize the timer
