@@ -21,6 +21,10 @@ const breakTimeDisplay = document.querySelector('#break-counter')
 const bleepSound = document.querySelector('#bleep')
 const bloopSound = document.querySelector('#bloop')
 
+const faqButton = document.querySelector('#faq')
+const faqDiv = document.querySelector('#modal')
+const closeButton = document.querySelector('#close')
+
 const playIcon = document.createElement('i')
 playIcon.classList.add("fas", "fa-play");
 
@@ -170,6 +174,13 @@ resetButton.addEventListener('click', () => {
 	toggleClock(reset);
 })
 
+faqButton.addEventListener('click', () => {
+	modal.style.display = 'block'
+})
+
+closeButton.addEventListener('click', () => {
+	modal.style.display = 'none'
+});
 
 
 timerConvert(sessionTime);  /// initialize the timer
